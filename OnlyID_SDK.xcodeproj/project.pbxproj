@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		0B89B7E31F6D059000522F16 /* OnlyID_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B89B7D91F6D059000522F16 /* OnlyID_SDK.framework */; };
 		0B89B7E81F6D059000522F16 /* OnlyID_SDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B89B7E71F6D059000522F16 /* OnlyID_SDKTests.swift */; };
-		0B89B7EA1F6D059000522F16 /* OnlyID_SDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B89B7DC1F6D059000522F16 /* OnlyID_SDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0B89B7F41F6D05AC00522F16 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B89B7F31F6D05AC00522F16 /* AuthViewController.swift */; };
+		0B8B36CF1F70E02F00A7EDC7 /* OnlyID_SDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8B36CE1F70E02F00A7EDC7 /* OnlyID_SDK.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,11 +25,12 @@
 
 /* Begin PBXFileReference section */
 		0B89B7D91F6D059000522F16 /* OnlyID_SDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OnlyID_SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B89B7DC1F6D059000522F16 /* OnlyID_SDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnlyID_SDK.h; sourceTree = "<group>"; };
 		0B89B7DD1F6D059000522F16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B89B7E21F6D059000522F16 /* OnlyID_SDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnlyID_SDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B89B7E71F6D059000522F16 /* OnlyID_SDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyID_SDKTests.swift; sourceTree = "<group>"; };
 		0B89B7E91F6D059000522F16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B89B7F31F6D05AC00522F16 /* AuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		0B8B36CE1F70E02F00A7EDC7 /* OnlyID_SDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlyID_SDK.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +73,9 @@
 		0B89B7DB1F6D059000522F16 /* OnlyID_SDK */ = {
 			isa = PBXGroup;
 			children = (
-				0B89B7DC1F6D059000522F16 /* OnlyID_SDK.h */,
+				0B89B7F31F6D05AC00522F16 /* AuthViewController.swift */,
 				0B89B7DD1F6D059000522F16 /* Info.plist */,
+				0B8B36CE1F70E02F00A7EDC7 /* OnlyID_SDK.swift */,
 			);
 			path = OnlyID_SDK;
 			sourceTree = "<group>";
@@ -93,7 +96,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B89B7EA1F6D059000522F16 /* OnlyID_SDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +151,7 @@
 					0B89B7D81F6D059000522F16 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 7S4WBEMJGG;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					0B89B7E11F6D059000522F16 = {
@@ -198,6 +201,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B8B36CF1F70E02F00A7EDC7 /* OnlyID_SDK.swift in Sources */,
+				0B89B7F41F6D05AC00522F16 /* AuthViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +329,7 @@
 		0B89B7EE1F6D059000522F16 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 7S4WBEMJGG;
@@ -336,6 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.onlyid.OnlyID-SDK";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -343,6 +350,7 @@
 		0B89B7EF1F6D059000522F16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 7S4WBEMJGG;
@@ -362,6 +370,7 @@
 		0B89B7F11F6D059000522F16 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 7S4WBEMJGG;
 				INFOPLIST_FILE = OnlyID_SDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -374,6 +383,7 @@
 		0B89B7F21F6D059000522F16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 7S4WBEMJGG;
 				INFOPLIST_FILE = OnlyID_SDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -402,6 +412,7 @@
 				0B89B7EF1F6D059000522F16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0B89B7F01F6D059000522F16 /* Build configuration list for PBXNativeTarget "OnlyID_SDKTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +421,7 @@
 				0B89B7F21F6D059000522F16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
