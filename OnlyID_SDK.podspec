@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.version      = "1.0.0"
   s.summary      = "OnlyID_SDK"
   s.description  = <<-DESC
-                  接入onlyID
+                  用OnlyID_SDK接入onlyID
                    DESC
   s.homepage     = "https://onlyid.net"
   s.license      = "MIT"
