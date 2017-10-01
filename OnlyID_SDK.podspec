@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://onlyid.net"
   s.license      = "MIT"
   s.author       = { "ltb" => "liangtb@qq.com" }
-  s.platform     = :ios, "10.3"
+  s.platform     = :ios, "8.0"
   s.source       = { :path => '.' }
   s.source_files  = "OnlyID_SDK", "OnlyID_SDK/**/*.{h,m,swift}"
   s.exclude_files = "Classes/Exclude"
