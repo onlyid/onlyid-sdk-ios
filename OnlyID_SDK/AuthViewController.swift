@@ -15,7 +15,6 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
     var delegate: AuthDelegate!, clientId: String!, state: String!
     var progressView = UIProgressView(progressViewStyle: .default)
     var webView: WKWebView!
-    var finish = false
     var authResponse: AuthResponse!
     
     init(clientId: String, state: String, delegate: AuthDelegate) {
@@ -33,12 +32,6 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         // 不延伸到navigation bar
         edgesForExtendedLayout = .bottom
-        
-        let red: CGFloat = 0x4b / 255
-        let green: CGFloat = 0x50 / 255
-        let blue: CGFloat = 0x56 / 255
-        let colorBg = UIColor(red: red, green: green, blue: blue, alpha: 1)
-        UIApplication.shared.keyWindow?.backgroundColor = colorBg
 
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "返回", style: .done, target: self, action: #selector(AuthViewController.cancel))
         var frame = progressView.frame
@@ -49,7 +42,6 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 64)
         webView = WKWebView(frame: frame, configuration: webConfiguration)
         webView.navigationDelegate = self
-        webView.backgroundColor = colorBg
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         view.addSubview(webView)
 
@@ -86,8 +78,8 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         if let url = navigationAction.request.url, url.absoluteString.hasPrefix(AuthViewController.redirectUri) {
             let dict = convertQuery2Dict(query: url.query!)
             print(dict)
-            finish = true
             authResponse = AuthResponse(.OK, authCode: dict["code"], state: dict["state"])
+            dismiss(animated: true, completion: didDismiss)
         }
     }
     
@@ -113,10 +105,6 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         print("didFinish; \(navigation)")
         progressView.isHidden = true
         progressView.progress = 0
-        
-        if finish {
-            dismiss(animated: true, completion: didDismiss)
-        }
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
