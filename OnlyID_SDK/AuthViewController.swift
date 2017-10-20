@@ -122,6 +122,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
     func didDismiss() {
         delegate.didReceiveAuthResponse(authResponse: authResponse)
         webView.removeObserver(self, forKeyPath: "estimatedProgress")
+        webView.stopLoading()
     }
 
     override func didReceiveMemoryWarning() {
