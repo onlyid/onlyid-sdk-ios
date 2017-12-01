@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 class AuthViewController: UIViewController, WKNavigationDelegate {
-    static let myUrl = "https://oauth.onlyid.net:1984/"
+    static let myUrl = "https://oauth.onlyid.net/"
     static let redirectUri = myUrl + "default_redirect_uri"
     var delegate: AuthDelegate!, clientId: String!, state: String!
     var progressView = UIProgressView(progressViewStyle: .default)
