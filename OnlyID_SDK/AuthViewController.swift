@@ -12,10 +12,13 @@ import WebKit
 class AuthViewController: UIViewController, WKNavigationDelegate {
     static let myUrl = "https://oauth.onlyid.net/"
     static let redirectUri = myUrl + "default_redirect_uri"
+    static let clientUrl = myUrl + "clients"
     var delegate: AuthDelegate!, clientId: String!, state: String!
     var progressView = UIProgressView(progressViewStyle: .default)
     var webView: WKWebView!
     var authResponse: AuthResponse!
+    
+    private static let  darkThemeColor = UIColor(red:0.29, green:0.31, blue:0.27, alpha:1.0)
     
     init(clientId: String, state: String, delegate: AuthDelegate) {
         super.init(nibName: nil, bundle: nil)
@@ -32,6 +35,8 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         // 不延伸到navigation bar
         edgesForExtendedLayout = .bottom
+        
+        requestClientInfo(clientId: clientId)
 
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "返回", style: .done, target: self, action: #selector(AuthViewController.cancel))
         var frame = progressView.frame
@@ -45,10 +50,27 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         view.addSubview(webView)
 
-        let authorizeUrl = AuthViewController.myUrl + "authorize?response_type=code&client_id=" + clientId + "&state=" + state + "&redirect_uri=" + AuthViewController.redirectUri
+        var authorizeUrl = AuthViewController.myUrl + "authorize?response_type=code&client_id="
+        authorizeUrl += clientId + "&state=" + state + "&redirect_uri=" + AuthViewController.redirectUri
         let url = URL(string: authorizeUrl)
         let request = URLRequest(url: url!)
         webView.load(request)
+    }
+    
+    private func requestClientInfo(clientId: String) {
+        let url = URL(string: AuthViewController.clientUrl + "/" + clientId)
+        let request = URLRequest(url: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { [weak self] (response, data, error) in
+            if let ret = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any],
+                let ret2 = ret,
+                let client = ret2["client"] as? [String: Any],
+                let themeDark = client["themeDark"] as? Bool {
+                if themeDark {
+                    self?.webView.backgroundColor = AuthViewController.darkThemeColor
+                    self?.webView.scrollView.backgroundColor = AuthViewController.darkThemeColor
+                }
+            }
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -78,7 +100,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         if let url = navigationAction.request.url, url.absoluteString.hasPrefix(AuthViewController.redirectUri) {
             let dict = convertQuery2Dict(query: url.query!)
             print(dict)
-            authResponse = AuthResponse(.OK, authCode: dict["code"], state: dict["state"])
+            authResponse = AuthResponse(.ok, authCode: dict["code"], state: dict["state"])
             dismiss(animated: true, completion: didDismiss)
         }
     }

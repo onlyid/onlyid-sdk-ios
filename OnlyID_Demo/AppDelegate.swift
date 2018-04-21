@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OnlyID_SDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

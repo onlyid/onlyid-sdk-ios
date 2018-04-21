@@ -43,8 +43,19 @@ public class AuthResponse: NSObject {
         self.authCode = authCode
         self.state = state
     }
+    
+    override public var description: String {
+        return "\(code.description)  \(String(describing: authCode))  \(String(describing: state)) "
+    }
 }
 
 @objc public enum ErrCode: Int {
-    case OK, networkErr, cancel
+    case ok, networkErr, cancel
+    public var description: String {
+        switch self {
+        case .ok: return "OK"
+        case .networkErr: return "Network error"
+        case .cancel: return "Cancelled"
+        }
+    }
 }
