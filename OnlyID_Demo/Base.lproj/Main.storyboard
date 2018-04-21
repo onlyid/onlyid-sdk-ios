@@ -31,10 +31,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liK-tA-JCo">
+                                <rect key="frame" x="130.5" y="394" width="114" height="30"/>
+                                <state key="normal" title="Auth with Secret"/>
+                                <connections>
+                                    <action selector="authBtn2Tapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Y35-UA-zAS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="9Pn-5y-zkB" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ptg-Fy-jVo"/>
+                            <constraint firstItem="liK-tA-JCo" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Sm4-TX-kM5"/>
+                            <constraint firstItem="liK-tA-JCo" firstAttribute="top" secondItem="TvP-Qj-Fbw" secondAttribute="bottom" constant="35.5" id="X4d-t5-fi4"/>
                             <constraint firstItem="TvP-Qj-Fbw" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="XoU-pB-u1L"/>
                             <constraint firstItem="TvP-Qj-Fbw" firstAttribute="top" secondItem="9Pn-5y-zkB" secondAttribute="bottom" constant="92.5" id="cAH-4q-doa"/>
                             <constraint firstItem="TvP-Qj-Fbw" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="ioW-Az-NPS"/>

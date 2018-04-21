@@ -27,12 +27,17 @@ class ViewController: UIViewController {
         OnlyID.auth("5ad9df29904be93f3f621000", delegate: self)
     }
     
+    @IBAction func authBtn2Tapped(_ sender: Any) {
+        resultLabel.text = "Unauthorized"
+        OnlyID.auth("5ad9df29904be93f3f621000", clientSecret: "YOUR_SECRET", delegate: self)
+    }
 }
 
 extension ViewController: AuthDelegate {
     func didReceiveAuthResponse(authResponse: AuthResponse) {
         resultLabel.text =  authResponse.code.description
         print("authCode:\(authResponse.authCode)")
+        print("accessToken:\(authResponse.accessToken)")
     }
     
     

@@ -11,9 +11,11 @@ import UIKit
 
 public class OnlyID: NSObject {
     static let defaultState = "default_state"
+    
+    
 
-    static public func auth(_ clientId: String, state: String = defaultState, delegate: AuthDelegate) {
-        let viewController = AuthViewController(clientId: clientId, state: state, delegate: delegate)
+    static public func auth(_ clientId: String, clientSecret: String? = nil, state: String = defaultState, delegate: AuthDelegate) {
+        let viewController = AuthViewController(clientId: clientId, clientSecret: clientSecret, state: state, delegate: delegate)
         
         let navigationController = UINavigationController(rootViewController: viewController)
         
@@ -36,26 +38,28 @@ public class OnlyID: NSObject {
 }
 
 public class AuthResponse: NSObject {
-    public let code: ErrCode, authCode: String?, state: String?
-    
-    init(_ code: ErrCode, authCode: String? = nil, state: String? = nil) {
+    public let code: ErrCode, authCode: String?, state: String?, accessToken: String?
+    // TODO: An error message is needed??
+    init(_ code: ErrCode, authCode: String? = nil, accessToken: String? = nil, state: String? = nil) {
         self.code = code
         self.authCode = authCode
         self.state = state
+        self.accessToken = accessToken
     }
     
     override public var description: String {
-        return "\(code.description)  \(String(describing: authCode))  \(String(describing: state)) "
+        return "\(code.description)  \(String(describing: authCode)) \(String(describing: accessToken))  \(String(describing: state)) "
     }
 }
 
 @objc public enum ErrCode: Int {
-    case ok, networkErr, cancel
+    case ok, networkErr, cancel, serverError
     public var description: String {
         switch self {
         case .ok: return "OK"
         case .networkErr: return "Network error"
         case .cancel: return "Cancelled"
+        case .serverError: return "Server error"
         }
     }
 }

@@ -13,22 +13,27 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
     static let myUrl = "https://oauth.onlyid.net/"
     static let redirectUri = myUrl + "default_redirect_uri"
     static let clientUrl = myUrl + "clients"
-    var delegate: AuthDelegate!, clientId: String!, state: String!
+    static let tokenUrl = myUrl + "token"
+    var delegate: AuthDelegate!, clientId: String, state: String, clientSecret: String?
     var progressView = UIProgressView(progressViewStyle: .default)
     var webView: WKWebView!
     var authResponse: AuthResponse!
     
     private static let  darkThemeColor = UIColor(red:0.29, green:0.31, blue:0.27, alpha:1.0)
     
-    init(clientId: String, state: String, delegate: AuthDelegate) {
-        super.init(nibName: nil, bundle: nil)
-        self.delegate = delegate
+    init(clientId: String,clientSecret: String?, state: String, delegate: AuthDelegate) {
         self.clientId = clientId
         self.state = state
+        
+        super.init(nibName: nil, bundle: nil)
+        self.delegate = delegate
+        self.clientSecret = clientSecret
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+//        super.init(coder: aDecoder)
+        fatalError("call init(clientId: String,clientSecret: String?, state: String, delegate: AuthDelegate)")
     }
 
     override func viewDidLoad() {
@@ -36,7 +41,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         // 不延伸到navigation bar
         edgesForExtendedLayout = .bottom
         
-        requestClientInfo(clientId: clientId)
+        changeThemeIfNeeded(clientId: clientId)
 
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "返回", style: .done, target: self, action: #selector(AuthViewController.cancel))
         var frame = progressView.frame
@@ -57,7 +62,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         webView.load(request)
     }
     
-    private func requestClientInfo(clientId: String) {
+    private func changeThemeIfNeeded(clientId: String) {
         let url = URL(string: AuthViewController.clientUrl + "/" + clientId)
         let request = URLRequest(url: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { [weak self] (response, data, error) in
@@ -69,6 +74,31 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
                     self?.webView.backgroundColor = AuthViewController.darkThemeColor
                     self?.webView.scrollView.backgroundColor = AuthViewController.darkThemeColor
                 }
+            }
+        }
+    }
+    
+    private func requestAccessToken(authResponse: AuthResponse) {
+        if let clientSecret = clientSecret {
+            let url = URL(string: AuthViewController.tokenUrl)
+            var request = URLRequest(url: url!)
+            let code = authResponse.authCode ?? ""
+            let body = "client_id=\(clientId)&client_secret=\(clientSecret)&redirect_uri=\(AuthViewController.redirectUri)&grant_type=authorization_code&code=\(code)".data(using: .utf8)
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = "POST"
+            request.httpBody = body
+            NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { [weak self] (response, data, error) in
+                if let ret = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any],
+                    let ret2 = ret,
+                    let accessToken = ret2["access_token"] as? String {
+                    let response = AuthResponse(.ok, accessToken: accessToken, state: authResponse.state )
+                    self?.authResponse = response
+                    
+                }else {
+                    let response = AuthResponse(.serverError)
+                    self?.authResponse = response
+                }
+                self?.dismiss(animated: true, completion: self?.didDismiss)
             }
         }
     }
@@ -101,6 +131,10 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
             let dict = convertQuery2Dict(query: url.query!)
             print(dict)
             authResponse = AuthResponse(.ok, authCode: dict["code"], state: dict["state"])
+            if clientSecret != nil { // One more step: get access token
+                requestAccessToken(authResponse: authResponse)
+                return
+            }
             dismiss(animated: true, completion: didDismiss)
         }
     }
