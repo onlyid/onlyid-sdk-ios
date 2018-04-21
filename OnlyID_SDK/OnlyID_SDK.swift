@@ -53,13 +53,14 @@ public class AuthResponse: NSObject {
 }
 
 @objc public enum ErrCode: Int {
-    case ok, networkErr, cancel, serverError
+    case ok, networkErr, cancel, serverError, authFail
     public var description: String {
         switch self {
         case .ok: return "OK"
         case .networkErr: return "Network error"
         case .cancel: return "Cancelled"
         case .serverError: return "Server error"
+        case .authFail: return "Authorization failed"
         }
     }
 }

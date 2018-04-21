@@ -89,14 +89,14 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
             request.httpBody = body
             NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { [weak self] (response, data, error) in
                 if let ret = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any],
-                    let ret2 = ret,
-                    let accessToken = ret2["access_token"] as? String {
-                    let response = AuthResponse(.ok, accessToken: accessToken, state: authResponse.state )
-                    self?.authResponse = response
-                    
+                    let ret2 = ret {
+                    if let accessToken = ret2["access_token"] as? String {
+                        self?.authResponse = AuthResponse(.ok, accessToken: accessToken, state: authResponse.state )
+                    } else {
+                        self?.authResponse = AuthResponse(.authFail )
+                    }
                 }else {
-                    let response = AuthResponse(.serverError)
-                    self?.authResponse = response
+                    self?.authResponse = AuthResponse(.serverError)
                 }
                 self?.dismiss(animated: true, completion: self?.didDismiss)
             }
