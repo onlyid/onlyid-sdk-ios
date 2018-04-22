@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 
+
 class AuthViewController: UIViewController, WKNavigationDelegate {
     static let myUrl = "https://oauth.onlyid.net/"
     static let redirectUri = myUrl + "default_redirect_uri"
@@ -18,6 +19,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
     var progressView = UIProgressView(progressViewStyle: .default)
     var webView: WKWebView!
     var authResponse: AuthResponse!
+    var themeDark: Bool = false
     
     private static let  darkThemeColor = UIColor(red:0.29, green:0.31, blue:0.27, alpha:1.0)
     
@@ -28,29 +30,29 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         super.init(nibName: nil, bundle: nil)
         self.delegate = delegate
         self.clientSecret = clientSecret
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
         fatalError("call init(clientId: String,clientSecret: String?, state: String, delegate: AuthDelegate)")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 不延伸到navigation bar
         edgesForExtendedLayout = .bottom
         
-        changeThemeIfNeeded(clientId: clientId)
-
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "返回", style: .done, target: self, action: #selector(AuthViewController.cancel))
         var frame = progressView.frame
         progressView.frame = CGRect(x: 0, y: 44 - frame.height, width: view.frame.width, height: frame.height)
         navigationController?.navigationBar.addSubview(progressView)
         
-        let webConfiguration = WKWebViewConfiguration()
+        
         frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 64)
+        
+        let webConfiguration = WKWebViewConfiguration()
+//        webView = WKWebView(frame: CGRect.zero, configuration: webConfiguration)
         webView = WKWebView(frame: frame, configuration: webConfiguration)
+        webView.frame = frame
         webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         view.addSubview(webView)
@@ -60,35 +62,30 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: authorizeUrl)
         let request = URLRequest(url: url!)
         webView.load(request)
-    }
-    
-    private func changeThemeIfNeeded(clientId: String) {
-        let url = URL(string: AuthViewController.clientUrl + "/" + clientId)
-        let request = URLRequest(url: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { [weak self] (response, data, error) in
-            if let ret = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any],
-                let ret2 = ret,
-                let client = ret2["client"] as? [String: Any],
-                let themeDark = client["themeDark"] as? Bool {
-                if themeDark {
-                    self?.webView.backgroundColor = AuthViewController.darkThemeColor
-                    self?.webView.scrollView.backgroundColor = AuthViewController.darkThemeColor
-                }
-            }
+        if themeDark {
+            webView.backgroundColor = AuthViewController.darkThemeColor
+            webView.scrollView.backgroundColor = AuthViewController.darkThemeColor
         }
     }
-    
+
     private func requestAccessToken(authResponse: AuthResponse) {
         if let clientSecret = clientSecret {
             let url = URL(string: AuthViewController.tokenUrl)
             var request = URLRequest(url: url!)
             let code = authResponse.authCode ?? ""
-            let body = "client_id=\(clientId)&client_secret=\(clientSecret)&redirect_uri=\(AuthViewController.redirectUri)&grant_type=authorization_code&code=\(code)".data(using: .utf8)
+            var body = [String: String]()
+            body["client"] = clientId
+            body["clientSecret"] = clientSecret
+            body["redirect_uri"] = AuthViewController.redirectUri
+            body["grant_type"] = "authorization_code"
+            body["code"] = code
+            let params = body.toHttpParams().data(using: .utf8)
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.httpMethod = "POST"
-            request.httpBody = body
-            NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) { [weak self] (response, data, error) in
-                if let ret = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any],
+            request.httpBody = params
+            let task = URLSession.shared.dataTask(with: request) { [weak self]  (data, response, error) in
+                if let data = data,
+                    let ret = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                     let ret2 = ret {
                     if let accessToken = ret2["access_token"] as? String {
                         self?.authResponse = AuthResponse(.ok, accessToken: accessToken, state: authResponse.state )
@@ -100,6 +97,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
                 }
                 self?.dismiss(animated: true, completion: self?.didDismiss)
             }
+            task.resume()
         }
     }
     

@@ -18,6 +18,7 @@
 		DB296F43208A0C3B00C8EDD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB296F41208A0C3B00C8EDD5 /* LaunchScreen.storyboard */; };
 		DB296F4E208A107E00C8EDD5 /* OnlyID_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B89B7D91F6D059000522F16 /* OnlyID_SDK.framework */; };
 		DB296F4F208A107E00C8EDD5 /* OnlyID_SDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B89B7D91F6D059000522F16 /* OnlyID_SDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DB296F53208B7D3E00C8EDD5 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB296F52208B7D3E00C8EDD5 /* Dictionary+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		DB296F3F208A0C3B00C8EDD5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB296F42208A0C3B00C8EDD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB296F44208A0C3B00C8EDD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB296F52208B7D3E00C8EDD5 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				0B89B7F31F6D05AC00522F16 /* AuthViewController.swift */,
 				0B89B7DD1F6D059000522F16 /* Info.plist */,
 				0B8B36CE1F70E02F00A7EDC7 /* OnlyID_SDK.swift */,
+				DB296F52208B7D3E00C8EDD5 /* Dictionary+Extension.swift */,
 			);
 			path = OnlyID_SDK;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			files = (
 				0B8B36CF1F70E02F00A7EDC7 /* OnlyID_SDK.swift in Sources */,
 				0B89B7F41F6D05AC00522F16 /* AuthViewController.swift in Sources */,
+				DB296F53208B7D3E00C8EDD5 /* Dictionary+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

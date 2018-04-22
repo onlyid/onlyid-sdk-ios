@@ -12,8 +12,22 @@ import UIKit
 public class OnlyID: NSObject {
     static let defaultState = "default_state"
     
+    static func getTheme(_ clientId: String, callback: @escaping (Bool) -> Void ) {
+        let url = URL(string: AuthViewController.clientUrl + "/" + clientId)
+        let task = URLSession.shared.dataTask(with: url!) {  (data, response, error) in
+            var themeDark = false
+            if let data = data,
+                let ret = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+                let ret2 = ret,
+                let client = ret2["client"] as? [String: Any],
+                let isThemeDark = client["themeDark"] as? Bool {
+                    themeDark = isThemeDark
+            }
+            callback(themeDark)
+        }
+        task.resume()
+    }
     
-
     static public func auth(_ clientId: String, clientSecret: String? = nil, state: String = defaultState, delegate: AuthDelegate) {
         let viewController = AuthViewController(clientId: clientId, clientSecret: clientSecret, state: state, delegate: delegate)
         
@@ -22,12 +36,14 @@ public class OnlyID: NSObject {
         guard let window = UIApplication.shared.keyWindow, let rootViewController = window.rootViewController else {
             fatalError("keyWindow或rootViewController为nil")
         }
-        
-        if let currentViewController = rootViewController.presentedViewController {
-            currentViewController.present(navigationController, animated: true, completion: nil)
-        }
-        else {
-            rootViewController.present(navigationController, animated: true, completion: nil)
+        getTheme(clientId) { themeDark in
+            viewController.themeDark = themeDark
+            if let currentViewController = rootViewController.presentedViewController {
+                currentViewController.present(navigationController, animated: true, completion: nil)
+            }
+            else {
+                rootViewController.present(navigationController, animated: true, completion: nil)
+            }
         }
     }
     
