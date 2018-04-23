@@ -19,7 +19,8 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
     var progressView = UIProgressView(progressViewStyle: .default)
     var webView: WKWebView!
     var authResponse: AuthResponse!
-    var themeDark: Bool = false
+    var themeDark = false
+    var viewZoomed = true
     
     private static let  darkThemeColor = UIColor(red:0.29, green:0.31, blue:0.27, alpha:1.0)
     
@@ -57,8 +58,14 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         view.addSubview(webView)
 
-        var authorizeUrl = AuthViewController.myUrl + "authorize?response_type=code&client_id="
-        authorizeUrl += clientId + "&state=" + state + "&redirect_uri=" + AuthViewController.redirectUri
+        var queryString = [String: String]()
+        queryString["theme_dark"] = String(themeDark)
+        queryString["view_zoomed"] = String(true)
+        queryString["response_type"] = "code"
+        queryString["client_id"] = clientId
+        queryString["state"] = state
+        queryString["redirect_uri"] = AuthViewController.redirectUri
+        let authorizeUrl = AuthViewController.myUrl + "authorize?" + queryString.toHttpParams()
         let url = URL(string: authorizeUrl)
         let request = URLRequest(url: url!)
         webView.load(request)
