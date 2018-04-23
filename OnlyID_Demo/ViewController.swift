@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     
     @IBAction func authBtn2Tapped(_ sender: Any) {
         resultLabel.text = "Unauthorized"
-        OnlyID.auth("5ad9df29904be93f3f621000", clientSecret: "YOUR_SECRET", delegate: self)
+        OnlyID.auth("5ad9df29904be93f3f621000", clientSecret: "YOUR_SECRET", themeDark: true, delegate: self)
     }
 }
 
