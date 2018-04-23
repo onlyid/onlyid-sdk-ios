@@ -20,7 +20,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var authResponse: AuthResponse!
     var themeDark = false
-    var viewZoomed = true
+    var viewZoomed = false
     
     private static let  darkThemeColor = UIColor(red:0.29, green:0.31, blue:0.27, alpha:1.0)
     
@@ -60,12 +60,13 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
 
         var queryString = [String: String]()
         queryString["theme_dark"] = String(themeDark)
-        queryString["view_zoomed"] = String(true)
+        queryString["view_zoomed"] = String(viewZoomed)
         queryString["response_type"] = "code"
         queryString["client_id"] = clientId
         queryString["state"] = state
         queryString["redirect_uri"] = AuthViewController.redirectUri
         let authorizeUrl = AuthViewController.myUrl + "authorize?" + queryString.toHttpParams()
+        print(authorizeUrl)
         let url = URL(string: authorizeUrl)
         let request = URLRequest(url: url!)
         webView.load(request)

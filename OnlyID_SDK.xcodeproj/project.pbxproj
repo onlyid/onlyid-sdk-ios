@@ -248,6 +248,7 @@
 					};
 					DB296F35208A0C3900C8EDD5 = {
 						CreatedOnToolsVersion = 9.3;
+						DevelopmentTeam = 7S4WBEMJGG;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -548,6 +549,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7S4WBEMJGG;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = OnlyID_Demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
@@ -577,6 +579,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7S4WBEMJGG;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = OnlyID_Demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
