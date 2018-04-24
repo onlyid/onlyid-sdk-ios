@@ -36,8 +36,8 @@ class ViewController: UIViewController {
 extension ViewController: AuthDelegate {
     func didReceiveAuthResponse(authResponse: AuthResponse) {
         resultLabel.text =  authResponse.code.description
-        print("authCode:\(authResponse.authCode)")
-        print("accessToken:\(authResponse.accessToken)")
+        print("authCode:\(String(describing: authResponse.authCode))")
+        print("accessToken:\(String(describing: authResponse.accessToken))")
     }
     
     

@@ -114,7 +114,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    func cancel(button: UIBarButtonItem) {
+    @objc func cancel(button: UIBarButtonItem) {
         authResponse = AuthResponse(.cancel)
         dismiss(animated: true, completion: didDismiss)
     }

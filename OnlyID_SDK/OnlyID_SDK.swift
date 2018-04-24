@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public class OnlyID: NSObject {
-    static let defaultState = "default_state"
+    static public let defaultState = "default_state"
     
     static public func auth(_ clientId: String, clientSecret: String? = nil, state: String = defaultState, viewZoomed: Bool = true, themeDark: Bool = false, delegate: AuthDelegate) {
         let viewController = AuthViewController(clientId: clientId, clientSecret: clientSecret, state: state, delegate: delegate)
