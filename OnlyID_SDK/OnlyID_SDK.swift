@@ -12,7 +12,7 @@ import UIKit
 public class OnlyID: NSObject {
     static public let defaultState = "default_state"
     
-    static public func auth(_ clientId: String, clientSecret: String? = nil, state: String = defaultState, viewZoomed: Bool = true, themeDark: Bool = false, delegate: AuthDelegate) {
+    static public func auth(_ clientId: String, clientSecret: String? = nil, state: String = defaultState, viewZoomed: Bool = false, themeDark: Bool = false, delegate: AuthDelegate) {
         let viewController = AuthViewController(clientId: clientId, clientSecret: clientSecret, state: state, delegate: delegate)
         
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -29,7 +29,6 @@ public class OnlyID: NSObject {
             rootViewController.present(navigationController, animated: true, completion: nil)
         }
     }
-    
 }
 
 @objc public protocol AuthDelegate {
