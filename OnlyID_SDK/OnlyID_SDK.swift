@@ -46,7 +46,7 @@ public class AuthResponse: NSObject {
     }
     
     override public var description: String {
-        return "\(code.description)  \(String(describing: authCode)) \(String(describing: accessToken))  \(String(describing: state)) "
+        return "\(code.description)  authCode:\(String(describing: authCode ?? "")) accessToken:\(String(describing: accessToken ?? ""))  state:\(String(describing: state ?? "")) "
     }
 }
 
