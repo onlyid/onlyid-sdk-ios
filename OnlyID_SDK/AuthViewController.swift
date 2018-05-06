@@ -82,8 +82,8 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
             var request = URLRequest(url: url!)
             let code = authResponse.authCode ?? ""
             var body = [String: String]()
-            body["client"] = clientId
-            body["clientSecret"] = clientSecret
+            body["client_id"] = clientId
+            body["client_secret"] = clientSecret
             body["redirect_uri"] = AuthViewController.redirectUri
             body["grant_type"] = "authorization_code"
             body["code"] = code
