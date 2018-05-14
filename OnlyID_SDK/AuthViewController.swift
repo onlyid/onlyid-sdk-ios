@@ -92,7 +92,9 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
             request.httpMethod = "POST"
             request.httpBody = params
             let task = URLSession.shared.dataTask(with: request) { [weak self]  (data, response, error) in
-                if let data = data,
+                if error != nil {
+                    self?.authResponse = AuthResponse(.networkErr )
+                }else if let data = data,
                     let ret = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                     let ret2 = ret {
                     if let accessToken = ret2["access_token"] as? String {
@@ -100,8 +102,8 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
                     } else {
                         self?.authResponse = AuthResponse(.authFail )
                     }
-                }else {
-                    self?.authResponse = AuthResponse(.serverError)
+                }else { // Impossible here
+                    self?.authResponse = AuthResponse(.otherErr)
                 }
                 self?.dismiss(animated: true, completion: self?.didDismiss)
             }
