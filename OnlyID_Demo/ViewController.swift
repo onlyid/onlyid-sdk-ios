@@ -3,41 +3,32 @@
 //  OnlyID_Demo
 //
 //  Created by Alex on 2018/4/20.
-//  Copyright © 2018年 onlyID. All rights reserved.
+//  Copyright © 2018年 OnlyID. All rights reserved.
 //
 
 import UIKit
 import OnlyID_SDK
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, AuthDelegate {
     @IBOutlet weak var resultLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @IBAction func authBtnTapped(_ sender: Any) {
-        resultLabel.text = "Unauthorized"
-        OnlyID.auth("5ad9df29904be93f3f621000", delegate: self)
+    @IBAction func login(_ sender: Any) {
+        OnlyID_SDK.auth(clientId: "5adac916904be93f3f621003", delegate: self)
     }
     
-    @IBAction func authBtn2Tapped(_ sender: Any) {
-        resultLabel.text = "Unauthorized"
-        OnlyID.auth("5ad9df29904be93f3f621000", clientSecret: "e3f9a982376b570c6e6b27b5e96ddef3", viewZoomed: true, themeDark: true, delegate: self)
+    func didReceiveAuthResp(errCode: ErrCode, code: String?, state: String?) {
+        switch errCode {
+        case .cancel:
+            resultLabel.text = "用户取消"
+        case .networkErr:
+            resultLabel.text = "网络错误"
+        default:
+            resultLabel.text = "code= " + code! + ", state= " + (state ?? "")
+        }
     }
-}
-
-extension ViewController: AuthDelegate {
-    func didReceiveAuthResponse(authResponse: AuthResponse) {
-        resultLabel.text =  authResponse.code.description
-        print("authCode:\(String(describing: authResponse.authCode))")
-        print("accessToken:\(String(describing: authResponse.accessToken))")
-    }
-    
 }
