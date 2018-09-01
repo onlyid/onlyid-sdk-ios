@@ -18,7 +18,7 @@ class ViewController: UIViewController, AuthDelegate {
     }
 
     @IBAction func login(_ sender: Any) {
-        OnlyID_SDK.auth(clientId: "5adac916904be93f3f621003", delegate: self)
+        OnlyID.auth("5adac916904be93f3f621003", delegate: self)
     }
     
     func didReceiveAuthResp(errCode: ErrCode, code: String?, state: String?) {
