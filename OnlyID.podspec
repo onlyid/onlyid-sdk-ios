@@ -9,15 +9,15 @@
 Pod::Spec.new do |s|
   s.name             = 'OnlyID'
   s.version          = '1.0.0'
-  s.summary          = 'sdk for onlyid'
+  s.summary          = 'SDK for OnlyID'
   s.description      = <<-DESC
-  sdk for onlyid
+  This is OnlyID SDK
                        DESC
 
   s.homepage         = 'https://www.onlyid.net'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ltb' => 'liangtb@qq.com' }
-  s.source           = { :git => 'git@github.com:onlyid/onlyid-sdk-ios.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/onlyid/onlyid-sdk-ios', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.0'
 
