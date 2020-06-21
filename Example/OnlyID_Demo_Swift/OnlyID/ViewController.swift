@@ -113,38 +113,16 @@ class API {
     // 获取活用信息的api
     let userInfoAPI = "/api/open/user-info"
     
-    /// 获取access token
+    /// 获取用户信息
+    /// 生产环境使用时，获取用户信息建议在服务端进行，以防泄露你的client secret
     /// - Parameters:
     ///   - code: 登录成功码
     ///   - onSuccess: 成功回调
-    func fetchAcessToken(code: String, onSuccess: @escaping ((String) -> Void)) {
-        let tokenURLString = apiHost + tokenAPI
-        if let url = URL(string: tokenURLString) {
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            let params = ["clientSecret": secretId, "authorizationCode": code]
-            request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
-            request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            let task = URLSession.shared.dataTask(with: request) { (data, resonse, error) in
-                if let d = data {
-                    do {
-                        let jsonData = try JSONSerialization.jsonObject(with: d, options: .fragmentsAllowed)
-                        if let json = jsonData as? [String: Any] {
-                            debugPrint("[\(TAG)] jsonData: \(json)")
-                            if let token = json["accessToken"] as? String {
-                                
-                                onSuccess(token)
-                            }
-                        }
-                    }catch let e {
-                        debugPrint("[\(TAG)] convert json data failed: \(e)")
-                    }
-                }
-            }
-            task.resume()
+    func fetchUserInfo(code: String, onSuccess: @escaping (([String: Any]) -> Void)) {
+        fetchAcessToken(code: code) { (token) in
+            self.fetchUserInfo(token: token, onSuccess: onSuccess)
         }
     }
-    
     
     /// 获取用户信息
     /// - Parameters:
@@ -174,13 +152,35 @@ class API {
         }
     }
     
-    /// 获取用户信息
+    /// 获取access token
     /// - Parameters:
     ///   - code: 登录成功码
     ///   - onSuccess: 成功回调
-    func fetchUserInfo(code: String, onSuccess: @escaping (([String: Any]) -> Void)) {
-        fetchAcessToken(code: code) { (token) in
-            self.fetchUserInfo(token: token, onSuccess: onSuccess)
+    func fetchAcessToken(code: String, onSuccess: @escaping ((String) -> Void)) {
+        let tokenURLString = apiHost + tokenAPI
+        if let url = URL(string: tokenURLString) {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            let params = ["clientSecret": secretId, "authorizationCode": code]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
+            request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            let task = URLSession.shared.dataTask(with: request) { (data, resonse, error) in
+                if let d = data {
+                    do {
+                        let jsonData = try JSONSerialization.jsonObject(with: d, options: .fragmentsAllowed)
+                        if let json = jsonData as? [String: Any] {
+                            debugPrint("[\(TAG)] jsonData: \(json)")
+                            if let token = json["accessToken"] as? String {
+                                
+                                onSuccess(token)
+                            }
+                        }
+                    }catch let e {
+                        debugPrint("[\(TAG)] convert json data failed: \(e)")
+                    }
+                }
+            }
+            task.resume()
         }
     }
     
