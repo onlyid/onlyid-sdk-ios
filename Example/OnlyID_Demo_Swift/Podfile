@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'OnlyID_Example' do
+  pod 'OnlyID', :path => '../../'
+#  pod 'OnlyID', '> 1.0.0'
+
+  target 'OnlyID_Tests' do
+    inherit! :search_paths
+    
+  end
+end

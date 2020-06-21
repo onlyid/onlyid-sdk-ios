@@ -1,0 +1,7 @@
+use_frameworks!
+
+target 'OnlyID_Demo_Objc' do
+  pod 'OnlyID', :path => '../../'
+#  pod 'OnlyID', '> 1.0.0'
+
+end

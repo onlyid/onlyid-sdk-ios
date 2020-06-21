@@ -1,0 +1,16 @@
+PODS:
+  - OnlyID (1.0.0)
+
+DEPENDENCIES:
+  - OnlyID (from `../../`)
+
+EXTERNAL SOURCES:
+  OnlyID:
+    :path: "../../"
+
+SPEC CHECKSUMS:
+  OnlyID: a9581565f225755e9a9ccaa846e314706a01b41b
+
+PODFILE CHECKSUM: b7ac6d68aa56637bda3d4451cde742449bb3799c
+
+COCOAPODS: 1.9.3
