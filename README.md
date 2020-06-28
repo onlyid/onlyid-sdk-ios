@@ -1,28 +1,12 @@
-# OnlyID
+## 说明
 
-[![Version](https://img.shields.io/cocoapods/v/OnlyID.svg?style=flat)](https://cocoapods.org/pods/OnlyID)
-[![License](https://img.shields.io/cocoapods/l/OnlyID.svg?style=flat)](https://cocoapods.org/pods/OnlyID)
-[![Platform](https://img.shields.io/cocoapods/p/OnlyID.svg?style=flat)](https://cocoapods.org/pods/OnlyID)
+* OnlyID文件夹下是SDK源码
+* Example/OnlyID_Demo_Swift 演示从点击登录到获取用户信息完整流程
+* Example/OnlyID_Demo_Objc 演示OC怎么调用SDK
 
-## Example
+## 运行
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
-## Installation
-
-OnlyID is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'OnlyID'
-```
-
-## Author
-
-ltb liangtb@qq.com
-
-## License
-
-OnlyID is available under the MIT license. See the LICENSE file for more info.
+* 克隆项目到本地（`git clone https://github.com/onlyid/onlyid-sdk-ios.git`）
+* 命令行cd到OnlyID_Demo_Swift，运行 `pod install`
+* 使用Xcode打开OnlyID_Demo_Swift
+* 选择一个模拟器，点击运行
